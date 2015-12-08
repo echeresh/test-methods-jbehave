@@ -14,6 +14,9 @@ import org.jbehave.core.steps.InjectableStepsFactory;
 import org.jbehave.core.steps.InstanceStepsFactory;
 import ru.nsu.fit.tests.shared.AllureReporter;
 import ru.nsu.fit.tests.steps.MainSteps;
+import ru.nsu.fit.tests.steps.LoopSteps;
+import ru.nsu.fit.tests.steps.VarSteps;
+import ru.nsu.fit.tests.steps.StoryContext;
 import ru.yandex.qatools.allure.annotations.Stories;
 
 import static org.jbehave.core.io.CodeLocations.codeLocationFromClass;
@@ -42,7 +45,11 @@ public class MainStories extends JUnitStories {
 
     @Override
     public InjectableStepsFactory stepsFactory() {
-        return new InstanceStepsFactory(configuration(), new MainSteps());
+        StoryContext storyContext = new StoryContext();
+        return new InstanceStepsFactory(configuration(),
+            new MainSteps(storyContext),
+            new LoopSteps(storyContext),
+            new VarSteps(storyContext));
     }
 
     @Override
