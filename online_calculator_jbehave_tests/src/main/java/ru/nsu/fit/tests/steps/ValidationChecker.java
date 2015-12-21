@@ -2,7 +2,7 @@ package ru.nsu.fit.tests.steps;
 
 import org.testng.Assert;
 
-public class Checker {
+public class ValidationChecker {
 	private double epsilon = 1e-5;
 
 	public void assertDoubleEquals(double v0, double v1) {

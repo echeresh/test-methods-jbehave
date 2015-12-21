@@ -19,11 +19,10 @@ public class LoopSteps extends Steps {
         this.storyContext = storyContext;
     }
 
-
     @When("User computes series $var equals $expr with $niter iterations")
     @Severity(SeverityLevel.BLOCKER)
-    //@Features({"UI feature"})
-    public void storeInVar(String var, String expr, int niter) {
+    @Features({"UI feature", "Addition", "Subtraction", "Addition", "Multiplication", "Division"})
+    public void computeSeries(String var, String expr, int niter) {
         Calculator calculator = storyContext.getCalculator();
         for (int i = 0; i < niter; i++) {
         	String tExpr = storyContext.replaceVars(expr);

@@ -10,13 +10,33 @@ import ru.yandex.qatools.allure.annotations.Features;
 import ru.yandex.qatools.allure.annotations.Severity;
 import ru.yandex.qatools.allure.annotations.Step;
 import ru.yandex.qatools.allure.model.SeverityLevel;
+import ru.nsu.fit.tests.shared.AllureUtils;
 
 /**
  * @author Timur Zolotuhin (e-mail: tzolotuhin@parallels.com)
  */
 public class MainSteps extends Steps {
-    private Checker checker;
+    private ValidationChecker validationChecker;
     private StoryContext storyContext;
+
+    private double stringToDouble(String s) {
+    	double d;
+		switch (s) {
+    		case "NaN":
+    			d = Double.NaN;
+    			break;
+    		case "-Infinity":
+    			d = Double.NEGATIVE_INFINITY;
+    			break;
+    		case "+Infinity":
+    		case "Infinity":
+    			d = Double.POSITIVE_INFINITY;
+    			break;
+    		default:
+    			d = Double.parseDouble(s);
+    	}
+    	return d;
+    }
 
     public MainSteps(StoryContext storyContext) {
         this.storyContext = storyContext;
@@ -38,34 +58,40 @@ public class MainSteps extends Steps {
 
     @When("User types expression $expr using keyboard")
     @Severity(SeverityLevel.BLOCKER)
-    @Features({"UI feature", "Subtraction", "Addition", "Multiplication", "Division"})
+    @Features({"Keyboard feature", "Subtraction", "Addition", "Multiplication", "Division"})
     public void userTypesExpressionUsingKeyboard(String expr) {
         expr = storyContext.replaceVars(expr);
         Calculator calculator = storyContext.getCalculator();
         calculator.typeKeyboard(expr);
     }
 
-    @Then("Approximate result is $result")
+    @Then("Approximate result is $resultString")
     @Severity(SeverityLevel.BLOCKER)
     @Features("UI feature")
-    public void checkResultApproximately(double result) {
+    public void checkResultApproximately(String resultString) {
+    	double result = stringToDouble(resultString);
         Calculator calculator = storyContext.getCalculator();
-        checker.assertDoubleEqualsApproximately(Double.parseDouble(calculator.getInput()), result);
+    	AllureUtils.saveTextLog(String.format("Result is %s", resultString));
+    	AllureUtils.saveImageAttach("Result screen", calculator.makeScreenshot());
+        validationChecker.assertDoubleEqualsApproximately(Double.parseDouble(calculator.getInput()), result);
     }
 
-    @Then("Result is $result")
+    @Then("Result is $resultString")
     @Severity(SeverityLevel.BLOCKER)
     @Features("UI feature")
-    public void checkResult(double result) {
+    public void checkResult(String resultString) {
+    	double result = stringToDouble(resultString);
         Calculator calculator = storyContext.getCalculator();
-         checker.assertDoubleEquals(Double.parseDouble(calculator.getInput()), result);
+    	AllureUtils.saveTextLog(String.format("Result is %s", resultString));
+    	AllureUtils.saveImageAttach("Result screen", calculator.makeScreenshot());
+        validationChecker.assertDoubleEquals(Double.parseDouble(calculator.getInput()), result);
     }
 
     @BeforeScenario
     public void beforeScenario() {
         Calculator calculator = CalculatorService.newCalculator();
         storyContext.setCalculator(calculator);
-        checker = new Checker();
+        validationChecker = new ValidationChecker();
     }
 
     @AfterScenario

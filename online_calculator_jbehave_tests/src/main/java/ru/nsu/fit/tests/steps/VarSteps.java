@@ -19,22 +19,17 @@ public class VarSteps extends Steps {
     }
 
     @When("User stores expression $expr in variable $var")
-    @Severity(SeverityLevel.BLOCKER)
-    //@Features({"UI feature"})
     public void storeInVar(String expr, String var) {
         storyContext.saveVar(var, expr);
     }
 
     @When("User stores result in variable $var")
-    @Severity(SeverityLevel.BLOCKER)
-    //@Features({"UI feature"})
     public void storeInVar(String var) {
         Calculator calculator = storyContext.getCalculator();
         storyContext.saveVar(var, calculator.getInput());
     }
 
     @When("User loads from $var")
-    @Severity(SeverityLevel.BLOCKER)
     public void loadFromVar(String var) {
         Calculator calculator = storyContext.getCalculator();
         calculator.typeKeyboard(storyContext.getVar(var));

@@ -74,6 +74,7 @@ public class Calculator implements Closeable {
     }
 
     public void typeUI(String expr) {
+    	AllureUtils.saveTextLog(String.format("Typing expression %s using UI", expr));
         for (int i = 0; i < expr.length(); i++) {
             byte symbol = expr.getBytes()[i];
             switch (symbol) {
@@ -107,11 +108,13 @@ public class Calculator implements Closeable {
                     throw new IllegalArgumentException("Could not find ui element for following symbol: " + symbol);
             }
         }
-        AllureUtils.saveImageAttach("The expression is typed", browser.makeScreenshot());
+        AllureUtils.saveImageAttach("The expression is typed using UI", makeScreenshot());
     }
 
     public void typeKeyboard(String expr) {
+    	AllureUtils.saveTextLog(String.format("Typing expression %s using keyboard", expr));
         setInput(expr);
+        AllureUtils.saveImageAttach("The expression is typed using keyboard", makeScreenshot());
     }
 
     public String getInput() {
@@ -196,5 +199,9 @@ public class Calculator implements Closeable {
                 return getDigitElement(9);
         }
         return null;
+    }
+
+    public byte[] makeScreenshot() {
+    	return browser.makeScreenshot();
     }
 }
