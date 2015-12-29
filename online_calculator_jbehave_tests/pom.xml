@@ -78,6 +78,10 @@
                     <webAppSourceDirectory>${project.build.directory}/site/allure-maven-plugin</webAppSourceDirectory>
                     <stopKey>stop</stopKey>
                     <stopPort>1234</stopPort>
+                   <httpConnector>
+                        <!--host>localhost</host-->
+                        <port>8081</port>
+                    </httpConnector>
                 </configuration>
             </plugin>
 
@@ -111,7 +115,6 @@
                             <excludes />
                         </configuration>
                         <goals>
-                            <goal>run-stories-as-embeddables</goal>
                         </goals>
                     </execution>
                 </executions>
