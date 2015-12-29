@@ -111,7 +111,7 @@
                             <excludes />
                         </configuration>
                         <goals>
-                            <goal>run-stories-with-annotated-embedder</goal>
+                            <goal>run-stories-as-embeddables</goal>
                         </goals>
                     </execution>
                 </executions>
