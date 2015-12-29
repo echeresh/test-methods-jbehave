@@ -78,7 +78,7 @@
                     <webAppSourceDirectory>${project.build.directory}/site/allure-maven-plugin</webAppSourceDirectory>
                     <stopKey>stop</stopKey>
                     <stopPort>1234</stopPort>
-                   <httpConnector>
+                    <httpConnector>
                         <!--host>localhost</host-->
                         <port>8081</port>
                     </httpConnector>
@@ -93,28 +93,24 @@
                     <target>1.7</target>
                 </configuration>
             </plugin>
+
             <plugin>
                 <groupId>org.jbehave</groupId>
                 <artifactId>jbehave-maven-plugin</artifactId>
                 <version>4.0.4</version>
                 <executions>
                     <execution>
-                        <id>unpack-view-resources</id>
-                        <phase>process-resources</phase>
-                        <goals>
-                            <goal>unpack-view-resources</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>embeddable-stories</id>
+                        <id>run-stories-as-embeddables</id>
                         <phase>test</phase>
                         <configuration>
                             <includes>
                                 <include>**/*Stories.java</include>
                             </includes>
-                            <excludes />
+                            <ignoreFailureInStories>true</ignoreFailureInStories>
+                            <ignoreFailureInView>false</ignoreFailureInView>
                         </configuration>
                         <goals>
+                            <goal>run-stories-as-embeddables</goal>
                         </goals>
                     </execution>
                 </executions>

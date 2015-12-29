@@ -6,4 +6,4 @@ When User types expression = using user interface
 Then Result is 134.99
 When User types expression - 35.53 using keyboard
 When User types expression = using user interface
-Then Result is 99.46
+Then Approximate result is 99.46
